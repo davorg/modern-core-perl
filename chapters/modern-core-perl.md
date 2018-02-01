@@ -1,3 +1,10 @@
+---
+title: Modern Core Perl
+author: Dave Cross
+language: en-UK
+cover-image: cover.jpg
+...
+
 # Modern Perl Catch-Up
 
 ## Modern Perl Catch-Up

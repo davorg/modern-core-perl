@@ -1,0 +1,12 @@
+* {
+  text-align: justify;
+}
+p, h1, h2 {
+  font-family: arial, helvetica, sans-serif;
+}
+
+code {
+  color: #333;
+  font-family: 'Liberation Mono', 'Courier Mew', Courier;
+  font-size: 100%;
+}
