@@ -105,7 +105,7 @@
 ## Given Example
 
     given ($foo) {
-      when (/^abc/) { $abc = 1} 
+      when (/^abc/) { $abc = 1}
       when (/^def/) { $def = 1 }
       when (/^xyz/) { $xyz = 1 }
       default { $nothing = 1 }
@@ -234,667 +234,222 @@
 * New escape sequences
 * Many more
 
-
-
-
-31
-
 # Named Capture Buffers
-
 
-Variables $1, $2, etc change if the regex is
-altered
-
-
-
-Named captures retain their names
-
-
-
-(?<name> ... ) to define
-
-
-
-Use new %+ hash to access them
-
-
-
-
-32
+* Variables $1, $2, etc change if the regex is altered
+* Named captures retain their names
+* (?<name> ... ) to define
+* Use new %+ hash to access them
 
 # Named Capture Example
-
 
-while (<DATA>) {
-if (/(?<header>[\w\s]+)
-:\s+(?<value>.+)/x) {
-print "$+{header} -> ";
-print "$+{value}\n";
-}
-}
-
-
-
-
-33
+    while (<DATA>) {
+      if (/(?<header>[\w\s]+):\s+(?<value>.+)/x) {
+        print "$+{header} -> ";
+        print "$+{value}\n";
+      }
+    }
 
 # Possessive Quantifiers
-
 
-?+, *+, ++
-
-
-
-Grab as much as they can
-
-
-
-Never give it back
-
-
-
-
-
-Finer control over backtracking
-'aaaa' =~ /a++a/
-Never matches
-
-
-
-
-34
+* ?+, *+, ++
+* Grab as much as they can
+* Never give it back
+* Finer control over backtracking
+* 'aaaa' =~ /a++a/
+* Never matches
 
 # Relative Backreferences
-
 
-\g{N}
-
-
-
-More powerful version of \1, \2, etc
-
-
-
-\g{1} is the same as \1
-
-
-
-\g{-1} is the last capture buffer
-
-
-
-\g{-2} is the one before that
-
-
-
-
-35
+* \g{N}
+* More powerful version of \1, \2, etc
+* \g{1} is the same as \1
+* \g{-1} is the last capture buffer
+* \g{-2} is the one before that
 
 # New Escape Sequences
-
 
-\h – Horizontal white space
-
-
-
-\v – Vertical white space
-
-
-
-Also \H and \V
-
-
-
-
-36
+* \h – Horizontal white space
+* \v – Vertical white space
+* Also \H and \V
 
 # Accessing New Features
-
 
-Some new features would break backwards
-compatibility
-
-
-
-They are therefore turned off by default
-
-
-
-Various ways to turn them on
-
-
-
-
-37
+* Some new features would break backwards compatibility
+* They are therefore turned off by default
+* Various ways to turn them on
 
 # Feature Pragma
-
 
-Turn new features on with the feature
-pragma
-
-
-
-use feature 'say';
-
-
-
-use feature 'switch';
-
-
-
-use feature 'state';
-
-
-
-use feature ':5.10';
-
-
-
-
-38
+* Turn new features on with the feature pragma
+* use feature 'say';
+* use feature 'switch';
+* use feature 'state';
+* use feature ':5.10';
 
 # Implicit Loading
-
 
-Two ways to automatically turn on 5.10
-features
-
-
-
-Require a high enough version of Perl
-
-
-
-use 5.10.0; # Or higher
-
-
-
--E command line option
-
-
-
-perl -e 'say “hello”'
-
-
-
-perl -E 'say “hello”'
-
-
-
-
-39
+* Two ways to automatically turn on 5.10 features
+* Require a high enough version of Perl
+* use 5.10.0; # Or higher
+* -E command line option
+* perl -e 'say “hello”'
+* perl -E 'say “hello”'
 
 # Perl 5.12
-
 
-Released 12 April 2010
-−
-
-
-
-5.12.4 20 June 2011
-
-Many new enhancements
-
-
-
-
-40
+* Released 12 April 2010
+* 5.12.4 20 June 2011
+* Many new enhancements
 
 # 5.12 Enhancements
-
 
-package NAME VERSION syntax
-
-
-
-... operator
-
-
-
-Implicit strictures
-
-
-
-Y2038 compliance
-
-
-
-
-41
+* package NAME VERSION syntax
+* ... operator
+* Implicit strictures
+* Y2038 compliance
 
 # 5.12 Enhancements
-
 
-Smart match changes
-
-
-
-New modules
-−
-
-autodie
-
-−
-
-parent
-
-
-
-
-42
+* Smart match changes
+* New modules
+* autodie
+* parent
 
 # package NAME VER
-
 
-
-
-
+* Declare the version of a package in the package declaration
+* package My::Package 1.23;
+* Equivalent to
 
-Declare the version of a package in the
-package declaration
-package My::Package 1.23;
-Equivalent to
-package My::Package;
-our $VERSION = 1.23;
-
-
-
-
-43
+    package My::Package;
+    our $VERSION = 1.23;
 
 # ... Operator
-
 
-Called the “yada-yada” operator
+* Called the “yada-yada” operator
+* Used to stand in for unwritten code
 
-
+    sub unimplemented {
+      ...
+    }
 
-Used to stand in for unwritten code
-
-
-
-
-
-
-sub unimplemented {
-...
-}
-
-Code compiles
-Throws an “unimplemented” exception
-when run
-
-
-
-
-44
+* Code compiles
+* Throws an “unimplemented” exception when run
 
 # Implicit Strictures
-
 
-Requiring a version of Perl greater than 5.11
-implicitly turns on use strict
+* Requiring a version of Perl greater than 5.11 implicitly turns on use strict
+* use 5.12.0;
+* Is equivalent to
 
-
-
-use 5.12.0;
-
-
-
-Is equivalent to
-
-
-
-use strict;
-use feature ':5.12';
-
-
-
-
-45
+    use strict;
+    use feature ':5.12';
 
 # Y2038 Compliance
-
 
-Core time functions are now Y2038
-compliant
-
-
-
-
-46
+* Core time functions are now Y2038 vompliant
 
 # Smart Match Changes
-
 
-Some changes to Smart Match operator
-
-
-
-No longer commutative
-
-
-
-See new table in perlsyn
-
-
-
-Still in flux!
-
-
-
-
-47
+* Some changes to Smart Match operator
+* No longer commutative
+* See new table in perlsyn
+* Still in flux!
 
 # New Modules
-
 
-Some new modules in the standard
-distribution
-
-
-
-autodie
-
-
-
-parent
-−
-
-Better version of base.
-
-
-
-
-48
+*Some new modules in the standard distribution
+* autodie
+* parent
+* Better version of base.
 
 # Perl 5.14
-
 
-Released 14 May 2011
-−
-
-
-
-5.14.2 26 Sept 2011
-
-Many new enhancements
-
-
-
-
-49
+* Released 14 May 2011
+* 5.14.2 26 Sept 2011
+* Many new enhancements
 
 # 5.14 Enhancements
-
 
-Non-destructive substitution
+* Non-destructive substitution
+* Container functions accept references
+* Package block
+* New modules
 
-
+# Non-destructive substitution
 
-Container functions accept references
+* New /r option on s/// and tr///
+* Copies input
+* Acts on copy
+* Original unmodifed
 
-
+    $_ = 'cat';
+    $new = s/cat/dog/r'; # $_ remains 'cat'
 
-Package block
+# Container functions accept references
 
-
+* Array & hash functions used to require arrays or hashes
+* push @array, $value
+* @keys = keys %hash
+* Even if you have a reference
+* push @$arrayref, $value
+* @keys = keys %$hashref
 
-New modules
+# Container functions accept references
 
-
-
-
-50
-
-# Non-destructive
-substitution
-
-
-New /r option on s/// and tr///
-
-
-
-Copies input
-
-
-
-Acts on copy
-
-
-
-Original unmodifed
-
-
-
-$_ = 'cat';
-$new = s/cat/dog/r'; # $_ remains 'cat'
-
-
-
-
-51
-
-# Container functions
-accept references
-
-
-
-
-Array & hash functions used to require
-arrays or hashes
-−
-
-push @array, $value
-
-−
-
-@keys = keys %hash
-
-Even if you have a reference
-−
-
-push @$arrayref, $value
-
-−
-
-@keys = keys %$hashref
-
-
-
-
-52
-
-# Container functions
-accept references
-
-
-
-
-Array & hash functions now accept
-references
-−
-
-push $array_ref, $value
-
-−
-
-@keys = keys $hash_ref
-
-Currently experimental
-
-
-
-
-53
+* Array & hash functions now accept references
+* push $array_ref, $value
+* @keys = keys $hash_ref
+* Currently experimental
 
 # Package block
-
 
-Attach a code block to a package declaration
-
-
-
-package MyPackage { ... }
-
-
-
-Equivalent to
-
-
-
-{ package MyPackage; ... }
-
-
-
-Can also declare a version
-
-
-
-package MyPackage 1.23 { ... }
-
-
-
-
-54
+* Attach a code block to a package declaration
+* package MyPackage { ... }
+* Equivalent to
+* { package MyPackage; ... }
+* Can also declare a version
+* package MyPackage 1.23 { ... }
 
 # New Modules
-
 
-Many modules for parsing META files
-
-
-
-CPAN::Meta::YAML & JSON::PP
-
-
-
-CPAN::Meta
-
-
-
-CPAN::Meta::Spec & CPAN::Meta::History
-
-
-
-Module::Metadata
-
-
-
-
-55
+* Many modules for parsing META files
+* CPAN::Meta::YAML & JSON::PP
+* CPAN::Meta
+* CPAN::Meta::Spec & CPAN::Meta::History
+* Module::Metadata
 
 # New Modules
-
 
-Other new modules
-
-
-
-HTTP::Tiny
-
-
-
-Perl::OSType
-
-
-
-Version::Requirements
-
-
-
-
-56
+* Other new modules
+* HTTP::Tiny
+* Perl::OSType
+* Version::Requirements
 
 # Perl 5.16
-
-
-Due in spring 2012
-
-
-
-Currently in development at 5.15
-−
-
-5.15.3 – 2011 Sep 21
-
-−
-
-Code freeze – 2011 Dec 20
-
-
-
-
-57
+* Due in spring 2012
+* Currently in development at 5.15
+* 5.15.3 – 2011 Sep 21
+* Code freeze – 2011 Dec 20
 
 # Perl 5.16
-
 
-Look for changes in perldelta
-−
-
-perl5150delta
-
-−
-
-perl5151delta
-
-−
-
-perl5152delta
-
-−
-
-perl5153delta
-
-
-
-
-58
+* Look for changes in perldelta
+* perl5150delta
+* perl5151delta
+* perl5152delta
+* perl5153delta
 
 # Some Highlights
-
 
-CORE on all keywords
-
-
-
-Continue outside switch
-
-
-
-Breakpoints with filenames
-
-
-
-Remove Perl 4 *.pl
-
-
-
-
-59
+* CORE on all keywords
+* Continue outside switch
+* Breakpoints with filenames
+* Remove Perl 4 *.pl
 
 # More Information
-
 
-perldoc perl5100delta
-
-
-
-perldoc perl5120delta
-
-
-
-perldoc perl5140delta
-
-
-
-
-60
-
-# That's all folks
-• Any questions?
-
-# 
+* perldoc perl5100delta
+* perldoc perl5120delta
+* perldoc perl5140delta
