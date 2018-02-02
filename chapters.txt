@@ -1,2 +1,3 @@
+chapters/intro.md
 chapters/first.md
 chapters/modern-core-perl.md
