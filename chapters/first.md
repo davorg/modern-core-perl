@@ -1,37 +1,121 @@
-# # Perl 5.10
+# Perl 5.10
 
-* Released 18th Dec 2007
-* Perl's 20th birthday
-* Many new features
-* Well worth upgrading
+Perl 5.10 was first released on 18th December 2007. This
+was the 20th anniversary of the original release of Perl 1.
+For various reasons, there had been a gap of over five years
+since the previous major release of Perl (5.8 in July 2002)
+and almost two years since the most recent minor release
+(5.8.8 in January 2006). There were therefore quite a large
+number of new features that has been worked on over that time
+and which first saw release with this version.
 
 ## New Features
+
+The new features that we will cover in this version of Perl are:
 
 * Defined-or operator
 * Switch operator
 * Smart matching
 * `say()`
-* Lexical `$_`9
-
-## New Features
-
+* Lexical `$_`
 * State variables
 * Stacked file tests
 * Regex improvements
-* Many more
 
 ## Defined Or
 
-* Boolean expressions “short-circuit”
-* $val = $val || $default;
-* $val ||= $default;
-* What if 0 is a valid value?
+This is a feature that makes it easier to write code that
+eliminates a common bug. So we'll start illustrating this
+bug.
 
-## Defined Or
+Boolean expressions in Perl will "short-circuit". That is,
+the Perl compiler will only evaluate as much of an expression
+as it needs to in order to calculate the final value of the
+expression. If the expression is `A or B` and `A` is true, then
+Perl doesn't need to calculate `B` as it already knows that the
+whole expression will be true. Similarly, if the expression is
+`A and B ` and `A` is false, then Perl doesn't need to evaluate
+`B` as it already knows that the whole expression must be false.
 
-* Need to check “definedness”
-* $val = defined $val ? $val : $default;
-* $val = $default unless defined $val;
+This is most commonly seen in the standard Perl idiom for
+opening a file and associating it with a filehandle:
+
+    open my $file_h, '<', $filename
+      or die "Cannot open $filename: $!";
+
+This expression has two parts which are joined together with an
+`or`. Perl starts by evaluating the first sub-part (`open ...`)
+which attempts to open a file. The `open()` function returns
+true or false to indicate whether it was successful. In the case
+where the file was opened successfully, `open()` returns true
+and as the first part of the Boolean expressions is true, Perl
+doesn't bother to evaluate the second sub-part.
+
+In the case where the `open()` failed, the function returns false.
+Perl now needs to evaluate the code to the right of the `or` to
+know whether the whole expression is true or false. That code calls
+`die()` and the program closes down without Perl ever finding out
+the final value of the expression.
+
+That's not the bug. That's a useful piece of idiomatic code.
+
+The bug appears when this feature is used more generally. You'll
+often see code like this:
+
+    my $default = 'some default value';
+    $variable   = $variable || $default;
+
+That second line can also be written more succinctly as:
+
+    $variable ||= $default;
+
+We're using Boolean short-circuiting again. If `$variable` has
+a value, then it will retain it. But if it doesn't have a
+value, it will be given the default value.
+
+That, at least, is the intention. But there are cases where it
+doesn't work. What happens if `$variable` starts with the value 0
+or an empty string? Both of them could be valid values for the
+variable, but both of them will be evaluated as false and will
+be overwritten with the default value.
+
+The problem is that we are checking for the "truth" of our
+variable, where we should really be checking that there is a
+value, any value, in the variable. And that means that we need
+to check that the variable is *defined*, not true.
+
+So we end up writing code like this instead:
+
+    $variable = defined $variable ? $variable : default;
+
+Or:
+
+    $variable = $default unless defined $variable;
+
+It's easy to see how the bug creeps in. The buggy version of the
+code looks far cleaner than the correct version. And it's often
+the case that the buggy version isn't buggy - if 0 or other
+false values aren't acceptable values for your variable
+
+But Perl 5.10 introduced the "defined-or" operator which helps
+us to keep this bug out of our code. It looks a lot like the
+existing `||` operator, but it checks that its left-hand operand
+is *defined*, not true.
+
+Using it, our code becomes this:
+
+    $variable = $variable // $default;
+
+There's an assignment version of it too:
+
+    $variable //= $default;
+
+This looks a lot like our original code. But this version is
+safer.
+
+I'm told that the `//` symbol was chosen because this operator
+gives us a "slightly different slaant on truth". I have no
+idea how true this claim is.
 
 ## Defined Or
 
