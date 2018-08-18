@@ -208,7 +208,7 @@ idea how true this claim is.
 * $foo ~~ $bar; # == or cmp
 * @foo ~~ $bar; # array contains value
 * %foo ~~ $bar; # hash key exists
-* $foo ~~ qr{$bar}; # regex match
+* $foo ~~ qr\{$bar}; # regex match
 * @foo ~~ @bar; # arrays are identical
 * %foo ~~ %bar; # hash keys match
 * Many more alternatives
