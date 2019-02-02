@@ -114,17 +114,8 @@ This looks a lot like our original code. But this version is
 safer.
 
 I'm told that the `//` symbol was chosen because this operator
-gives us a "slightly different slaant on truth". I have no
+gives us a "slightly different slant on truth". I have no
 idea how true this claim is.
-
-## Defined Or
-
-* The defined or operator makes this easier
-* $val = $val // $default;
-* A different slant on truth
-* Checks definedness
-* Shortcircuit version too
-* $val //= $value;
 
 ## Switch Statement
 
@@ -134,6 +125,47 @@ idea how true this claim is.
 * Regular expressions
 * eval
 * 5.10 introduces a build-in switch statement
+
+**Note:** The future of this feature is in doubt. It is not
+recommended that you use it in new code.
+
+It has long been a disappointment that, unlike most similar
+languages, Perl doesn't have a switch statement. This has lead
+a log of code that looks like this:
+
+    if ($var == 10) {
+      # do something
+    } elsif ($var == 20) {
+      # do something else
+    } elsif ($var == 30) {
+      # do something else
+    } else {
+      # do the default action
+    }
+
+But that's not particularly elegant and the repetition of
+`$var ==` leaves it open to either typos or cut and paste errors.
+
+Perl 5.8.0 introduced a module called Switch.pm which implemented
+a switch statement but it came with massive caveats. It was
+written as a source filter and pretty much all Perl experts will
+agree that Perl's source filters are a neat party trick but that
+they should be avoided in real code.
+
+A source filter allows a programmer to write code which has access
+to a program's source code before that code is passed to the Perl
+compiler. The source filter can then change the input code in
+various ways before passing it on to the compiler. This is most
+usually used to add extra syntax to the Perl language. The input
+code is written to use the new syntax and the source filter takes
+that code and converts it to standard Perl code which can be
+understood by the parser. One extreme example is Damian Conway's
+module, Perligata, which allows you to write Perl code in Latin.
+
+The problem with this approach is that the source filter needs to
+parse the source code that it receives and convert it to standard
+Perl. And parsing Perl code is notoriously difficult. It's almost
+impossibly to get it right in all cases.
 
 ## Given ... When
 
